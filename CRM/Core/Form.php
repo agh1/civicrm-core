@@ -153,6 +153,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
   static protected $_template;
 
   /**
+   * The array of elements to display on a form.
+   *
+   * @var array
+   */
+  protected $_elementList = array();
+
+  /**
    *  Indicate if this form should warn users of unsaved changes
    */
   protected $unsavedChangesWarn;
@@ -371,6 +378,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     if (HTML_QuickForm::isError($element)) {
       CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
     }
+
+    $this->_elementList[] = $name;
 
     if ($required) {
       if ($type == 'file') {
@@ -682,6 +691,36 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
    */
   public function setTitle($title) {
     $this->_title = $title;
+  }
+
+  /**
+   * Get the list of elements to display in the form.
+   *
+   * @return array
+   */
+  public function getElementList() {
+    return $this->_elementList;
+  }
+
+  /**
+   * Set the list of elements to display in the form.
+   *
+   * @param array $list
+   *   The list of elements.
+   */
+  public function setElementList($list) {
+    $this->_elementList = $list;
+  }
+
+  /**
+   * Set the order of the elements to display in the form.
+   *
+   * @param array $order
+   *   The order to set the element list in.
+   */
+  public function orderElementList($order) {
+    $order = array_intersect($order, $this->_elementList);
+    $this->_elementList = array_merge($order, array_diff($this->_elementList, $order));
   }
 
   /**
