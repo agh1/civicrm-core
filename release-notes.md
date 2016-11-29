@@ -751,7 +751,7 @@ Oosterhout; Rob Brandt; Saurabh Batra
   membership renewal doesn't display priceset choices
   ([9386](https://github.com/civicrm/civicrm-core/pull/9386))**
 
-  Cleanup of backend membership form code
+  Cleanup of backend membership form code - preparatory tidy up. Issue is NOT fixed this release
 
 - **[CRM-19580](https://issues.civicrm.org/jira/browse/CRM-19580) Line items are
   missing from manual receipts when using a price set with multiple membership
