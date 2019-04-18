@@ -41,8 +41,9 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
 
   /**
    * Ids of the contacts to limit the SQL queries (whole-database queries otherwise)
+   * @var array
    */
-  var $contactIds = [];
+  public $contactIds = [];
 
   /**
    * Set the contact IDs to restrict the dedupe to.
@@ -55,13 +56,15 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
 
   /**
    * Params to dedupe against (queries against the whole contact set otherwise)
+   * @var array
    */
-  var $params = [];
+  public $params = [];
 
   /**
    * If there are no rules in rule group.
+   * @var bool
    */
-  var $noRules = FALSE;
+  public $noRules = FALSE;
 
   protected $temporaryTables = [];
 
@@ -244,7 +247,6 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
             // get prepared to search within already found dupes if $searchWithinDupes flag is set
             $dao->query("DROP TEMPORARY TABLE IF EXISTS dedupe_copy");
             $dao->query("CREATE TEMPORARY TABLE dedupe_copy SELECT * FROM {$this->temporaryTables['dedupe']} WHERE weight >= {$weightSum}");
-            $dao->free();
 
             preg_match($patternColumn, $query, $matches);
             $query = str_replace(' WHERE ', str_replace('column', $matches[1], $dupeCopyJoin), $query);
@@ -255,7 +257,6 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
               // Make a second temp table:
               $dao->query("DROP TEMPORARY TABLE IF EXISTS dedupe_copy_2");
               $dao->query("CREATE TEMPORARY TABLE dedupe_copy_2 SELECT * FROM {$this->temporaryTables['dedupe']} WHERE weight >= {$weightSum}");
-              $dao->free();
               // After the union, use that new temp table:
               $part1 = substr($query, 0, $matches[1][1]);
               $query = $part1 . str_replace('dedupe_copy', 'dedupe_copy_2', substr($query, $matches[1][1]));
@@ -270,7 +271,6 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
           // FIXME: we need to be more acurate with affected rows, especially for insert vs duplicate insert.
           // And that will help optimize further.
           $affectedRows = $dao->affectedRows();
-          $dao->free();
 
           // In an inclusive situation, failure of any query means no further processing -
           if ($affectedRows == 0) {
@@ -496,7 +496,6 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup {
     }
     return $result;
   }
-
 
   /**
    * Get the cached contact type for a particular rule group.

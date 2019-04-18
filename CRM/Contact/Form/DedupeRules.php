@@ -186,6 +186,7 @@ class CRM_Contact_Form_DedupeRules extends CRM_Admin_Form {
    *
    * @return array
    */
+
   /**
    * @return array
    */
@@ -244,8 +245,6 @@ UPDATE civicrm_dedupe_rule_group
     $ruleDao = new CRM_Dedupe_DAO_Rule();
     $ruleDao->dedupe_rule_group_id = $rgDao->id;
     $ruleDao->delete();
-    $ruleDao->free();
-
     $substrLenghts = [];
 
     $tables = [];
@@ -266,7 +265,6 @@ UPDATE civicrm_dedupe_rule_group
         $ruleDao->rule_length = $length;
         $ruleDao->rule_weight = $weight;
         $ruleDao->save();
-        $ruleDao->free();
 
         if (!array_key_exists($table, $tables)) {
           $tables[$table] = [];
@@ -289,14 +287,13 @@ UPDATE civicrm_dedupe_rule_group
         if ($dao->fetch()) {
           // set the length to null for all the fields where prefix length is not supported. eg. int,tinyint,date,enum etc dataTypes.
           if ($dao->COLUMN_NAME == $field && !in_array($dao->DATA_TYPE, [
-                'char',
-                'varchar',
-                'binary',
-                'varbinary',
-                'text',
-                'blob',
-              ])
-          ) {
+            'char',
+            'varchar',
+            'binary',
+            'varbinary',
+            'text',
+            'blob',
+          ])) {
             $length = NULL;
           }
           elseif ($dao->COLUMN_NAME == $field && !empty($dao->CHARACTER_MAXIMUM_LENGTH) && ($length > $dao->CHARACTER_MAXIMUM_LENGTH)) {

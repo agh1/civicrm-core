@@ -38,6 +38,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField {
 
   /**
    * Batch entry fields.
+   * @var array
    */
   private static $_contriBatchEntryFields = NULL;
   private static $_memberBatchEntryFields = NULL;
@@ -134,7 +135,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField {
     civicrm_api3('profile', 'getfields', ['cache_clear' => TRUE]);
     return $ufField;
   }
-
 
   /**
    * Fetch object based on array of properties.
@@ -1061,24 +1061,32 @@ SELECT  id
    *
    * @param bool $force
    *
-   * @return array, multidimensional; e.g. $result['field_name']['label']
+   * @return array
+   *   e.g. $result['field_name']['label']
    */
   public static function getAvailableFieldsFlat($force = FALSE) {
-    // FIXME reset when data model changes
-    static $result = NULL;
-    if ($result === NULL || $force) {
-      $fieldTree = self::getAvailableFields();
-      $result = [];
-      foreach ($fieldTree as $field_type => $fields) {
-        foreach ($fields as $field_name => $field) {
-          if (!isset($result[$field_name])) {
-            $field['field_type'] = $field_type;
-            $result[$field_name] = $field;
+    if (!isset(Civi::$statics['UFFieldsFlat']) || $force) {
+      Civi::$statics['UFFieldsFlat'] = [];
+      foreach (self::getAvailableFields() as $fieldType => $fields) {
+        foreach ($fields as $fieldName => $field) {
+          if (!isset(Civi::$statics['UFFieldsFlat'][$fieldName])) {
+            $field['field_type'] = $fieldType;
+            Civi::$statics['UFFieldsFlat'][$fieldName] = $field;
           }
         }
       }
     }
-    return $result;
+    return Civi::$statics['UFFieldsFlat'];
+  }
+
+  /**
+   * Get a list of fields which can be added to profiles in the format [name => title]
+   *
+   * @return array
+   */
+  public static function getAvailableFieldTitles() {
+    $fields = self::getAvailableFieldsFlat();
+    return CRM_Utils_Array::collect('title', $fields);
   }
 
   /**
