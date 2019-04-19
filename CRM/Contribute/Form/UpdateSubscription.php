@@ -72,15 +72,6 @@ class CRM_Contribute_Form_UpdateSubscription extends CRM_Contribute_Form_Contrib
     $this->setAction(CRM_Core_Action::UPDATE);
 
     if ($this->contributionRecurID) {
-      try {
-        $this->_paymentProcessorObj = CRM_Financial_BAO_PaymentProcessor::getPaymentProcessorForRecurringContribution($this->contributionRecurID);
-      }
-      catch (CRM_Core_Exception $e) {
-        CRM_Core_Error::statusBounce(ts('There is no valid processor for this subscription so it cannot be edited.'));
-      }
-      catch (CiviCRM_API3_Exception $e) {
-        CRM_Core_Error::statusBounce(ts('There is no valid processor for this subscription so it cannot be edited.'));
-      }
       $this->_subscriptionDetails = CRM_Contribute_BAO_ContributionRecur::getSubscriptionDetails($this->contributionRecurID);
     }
 
@@ -215,17 +206,16 @@ class CRM_Contribute_Form_UpdateSubscription extends CRM_Contribute_Form_Contrib
 
     // define the buttons
     $this->addButtons([
-        [
-          'type' => $type,
-          'name' => ts('Save'),
-          'isDefault' => TRUE,
-        ],
-        [
-          'type' => 'cancel',
-          'name' => ts('Cancel'),
-        ],
-      ]
-    );
+      [
+        'type' => $type,
+        'name' => ts('Save'),
+        'isDefault' => TRUE,
+      ],
+      [
+        'type' => 'cancel',
+        'name' => ts('Cancel'),
+      ],
+    ]);
   }
 
   /**
@@ -290,9 +280,9 @@ class CRM_Contribute_Form_UpdateSubscription extends CRM_Contribute_Form_Contrib
 
       if ($this->_subscriptionDetails->installments != $params['installments']) {
         $message .= "<br /> " . ts("Recurring contribution installments have been updated from %1 to %2 for this subscription.", [
-              1 => $this->_subscriptionDetails->installments,
-              2 => $params['installments'],
-            ]) . ' ';
+          1 => $this->_subscriptionDetails->installments,
+          2 => $params['installments'],
+        ]) . ' ';
       }
 
       $activityParams = [

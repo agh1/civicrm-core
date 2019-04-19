@@ -137,7 +137,6 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form_Task {
           $contributionContactIds["{$result->contact_id}-{$result->contribution_id}"] = $result->contribution_id;
         }
       }
-      $result->free();
       $form->assign('totalSelectedContributions', $form->get('rowCount'));
     }
 
@@ -209,17 +208,16 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form_Task {
    */
   public function addDefaultButtons($title, $nextType = 'next', $backType = 'back', $submitOnce = FALSE) {
     $this->addButtons([
-        [
-          'type' => $nextType,
-          'name' => $title,
-          'isDefault' => TRUE,
-        ],
-        [
-          'type' => $backType,
-          'name' => ts('Cancel'),
-        ],
-      ]
-    );
+      [
+        'type' => $nextType,
+        'name' => $title,
+        'isDefault' => TRUE,
+      ],
+      [
+        'type' => $backType,
+        'name' => ts('Cancel'),
+      ],
+    ]);
   }
 
 }

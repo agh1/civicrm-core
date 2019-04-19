@@ -41,13 +41,15 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule {
 
   /**
    * Ids of the contacts to limit the SQL queries (whole-database queries otherwise)
+   * @var array
    */
-  var $contactIds = [];
+  public $contactIds = [];
 
   /**
    * Params to dedupe against (queries against the whole contact set otherwise)
+   * @var array
    */
-  var $params = [];
+  public $params = [];
 
   /**
    * Return the SQL query for the given rule - either for finding matching
@@ -78,7 +80,7 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule {
     $innerJoinClauses = [
       "t1.{$this->rule_field} IS NOT NULL",
       "t2.{$this->rule_field} IS NOT NULL",
-      "t1.{$this->rule_field} = t2.{$this->rule_field}"
+      "t1.{$this->rule_field} = t2.{$this->rule_field}",
     ];
     if ($fields[$this->rule_field]['type'] === CRM_Utils_Type::T_DATE) {
       $innerJoinClauses[] = "t1.{$this->rule_field} > '1000-01-01'";
@@ -107,8 +109,8 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule {
       case 'civicrm_address':
         $id = 'contact_id';
         $on[] = 't1.location_type_id = t2.location_type_id';
-        $innerJoinClauses[] = ['t1.location_type_id = t2.location_type_id'];
-        if ($this->params['civicrm_address']['location_type_id']) {
+        $innerJoinClauses[] = 't1.location_type_id = t2.location_type_id';
+        if (!empty($this->params['civicrm_address']['location_type_id'])) {
           $locTypeId = CRM_Utils_Type::escape($this->params['civicrm_address']['location_type_id'], 'Integer', FALSE);
           if ($locTypeId) {
             $where[] = "t1.location_type_id = $locTypeId";
