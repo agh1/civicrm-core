@@ -433,7 +433,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
       unset($extra['option_context']);
     }
 
-    $this->addRequiredAttribute($required, $extra);
     $element = $this->addElement($type, $name, CRM_Utils_String::purifyHTML($label), $attributes, $extra);
     if (HTML_QuickForm::isError($element)) {
       CRM_Core_Error::statusBounce(HTML_QuickForm::errorMessage($element));
@@ -444,6 +443,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     if ($required) {
+      $element->setAttribute('required');
       if ($type == 'file') {
         $error = $this->addRule($name, ts('%1 is a required field.', [1 => $label]), 'uploadedfile');
       }
@@ -1169,20 +1169,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
   }
 
   /**
-   * jQuery validate prefers to see a validation rule as a class (eg. "required").
-   * We can't add a class at the quickform level but jQuery validate also works with HTML5:
-   * HTML5 validation requires a separate attribute "required".
-   *
-   * @param $required
-   * @param $attributes
-   */
-  private function addRequiredAttribute($required, $attributes) {
-    // Ideally we do this by adding "required" as a class on the radio but we can't
-    // But adding the attribute "required" directly to the element also works.
-    $required ? $attributes['required'] = 1 : NULL;
-  }
-
-  /**
    * @param string $name
    * @param $title
    * @param $values
@@ -1199,8 +1185,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     $allowClear = !empty($attributes['allowClear']);
     unset($attributes['allowClear']);
     $attributes['id_suffix'] = $name;
-    // For jquery validate we need to flag the actual radio as required.
-    $this->addRequiredAttribute($required, $attributes);
     foreach ($values as $key => $var) {
       $optAttributes = $attributes;
       if (!empty($optionAttributes[$key])) {
@@ -1223,6 +1207,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     if ($required) {
+      // For jquery validate we need to flag the actual radio as required.
+      foreach ($options as $opt) {
+        $opt->setAttribute('required');
+      }
       $this->addRule($name, ts('%1 is a required field.', [1 => $title]), 'required');
     }
     if ($allowClear) {
