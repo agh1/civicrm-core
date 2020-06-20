@@ -46,11 +46,28 @@ class CRM_Core_DAO_AllCoreTables {
         $entityType['class'],
         $entityType['table'],
         $entityType['fields_callback'] ?? NULL,
-        $entityType['links_callback'] ?? NULL
+        $entityType['links_callback'] ?? NULL,
+        $entityType['label'] ?? $entityType['name']
       );
     }
 
     $init = TRUE;
+  }
+
+  /**
+   * Look up the label for an entity
+   *
+   * @param string $name
+   *   The entity name, or potentially the part of the table name after the
+   *   `civicrm_`.
+   * @return string
+   *   The translated label corresponding to the entity, or at the very least
+   *   the entity name.
+   */
+  public static function entityLabel($name) {
+    self::init();
+    $class = self::$daoToClass[$name] ?? self::$tables["civicrm_$name"] ?? NULL;
+    return self::$entityTypes[$class]['label'] ?? $name;
   }
 
   /**
@@ -61,8 +78,9 @@ class CRM_Core_DAO_AllCoreTables {
    * @param string $tableName
    * @param string $fields_callback
    * @param string $links_callback
+   * @param string $label
    */
-  public static function registerEntityType($daoName, $className, $tableName, $fields_callback = NULL, $links_callback = NULL) {
+  public static function registerEntityType($daoName, $className, $tableName, $fields_callback = NULL, $links_callback = NULL, $label) {
     self::$daoToClass[$daoName] = $className;
     self::$tables[$tableName] = $className;
     self::$entityTypes[$className] = [
@@ -71,6 +89,7 @@ class CRM_Core_DAO_AllCoreTables {
       'table' => $tableName,
       'fields_callback' => $fields_callback,
       'links_callback' => $links_callback,
+      'label' => $label,
     ];
   }
 

@@ -6,56 +6,67 @@ return [
     'name' => 'AddressFormat',
     'class' => 'CRM_Core_DAO_AddressFormat',
     'table' => 'civicrm_address_format',
+    'label' => ts('Address Format'),
   ],
   'CRM_Core_DAO_Extension' => [
     'name' => 'Extension',
     'class' => 'CRM_Core_DAO_Extension',
     'table' => 'civicrm_extension',
+    'label' => ts('Extension'),
   ],
   'CRM_Core_DAO_LocationType' => [
     'name' => 'LocationType',
     'class' => 'CRM_Core_DAO_LocationType',
     'table' => 'civicrm_location_type',
+    'label' => ts('Location Type'),
   ],
   'CRM_Core_DAO_Managed' => [
     'name' => 'Managed',
     'class' => 'CRM_Core_DAO_Managed',
     'table' => 'civicrm_managed',
+    'label' => ts('Managed Entity'),
   ],
   'CRM_Core_DAO_Mapping' => [
     'name' => 'Mapping',
     'class' => 'CRM_Core_DAO_Mapping',
     'table' => 'civicrm_mapping',
+    'label' => ts('Import/Export Mapping'),
   ],
   'CRM_Core_DAO_MessageTemplate' => [
     'name' => 'MessageTemplate',
     'class' => 'CRM_Core_DAO_MessageTemplate',
     'table' => 'civicrm_msg_template',
+    'label' => ts('Message Template'),
   ],
   'CRM_Core_DAO_OptionGroup' => [
     'name' => 'OptionGroup',
     'class' => 'CRM_Core_DAO_OptionGroup',
     'table' => 'civicrm_option_group',
+    'label' => ts('Option Group'),
   ],
   'CRM_Core_DAO_PreferencesDate' => [
     'name' => 'PreferencesDate',
     'class' => 'CRM_Core_DAO_PreferencesDate',
     'table' => 'civicrm_preferences_date',
+    'label' => ts('Date Preferences'),
   ],
   'CRM_Core_DAO_SystemLog' => [
     'name' => 'SystemLog',
     'class' => 'CRM_Core_DAO_SystemLog',
     'table' => 'civicrm_system_log',
+    'label' => ts('System Log'),
   ],
   'CRM_Core_DAO_Worldregion' => [
     'name' => 'Worldregion',
     'class' => 'CRM_Core_DAO_Worldregion',
     'table' => 'civicrm_worldregion',
+    'label' => ts('World Region'),
   ],
   'CRM_Core_DAO_Component' => [
     'name' => 'Component',
     'class' => 'CRM_Core_DAO_Component',
     'table' => 'civicrm_component',
+    'label' => ts('Component'),
   ],
   'CRM_Core_DAO_PrevNextCache' => [
     'name' => 'PrevNextCache',
@@ -76,6 +87,7 @@ return [
     'name' => 'ACL',
     'class' => 'CRM_ACL_DAO_ACL',
     'table' => 'civicrm_acl',
+    'label' => ts('ACL'),
   ],
   'CRM_ACL_DAO_EntityRole' => [
     'name' => 'EntityRole',
@@ -86,6 +98,7 @@ return [
     'name' => 'Contact',
     'class' => 'CRM_Contact_DAO_Contact',
     'table' => 'civicrm_contact',
+    'label' => ts('Contact'),
   ],
   'CRM_Contact_DAO_ACLContactCache' => [
     'name' => 'ACLContactCache',
@@ -96,21 +109,25 @@ return [
     'name' => 'RelationshipType',
     'class' => 'CRM_Contact_DAO_RelationshipType',
     'table' => 'civicrm_relationship_type',
+    'label' => ts('Relationship Type'),
   ],
   'CRM_Contact_DAO_SavedSearch' => [
     'name' => 'SavedSearch',
     'class' => 'CRM_Contact_DAO_SavedSearch',
     'table' => 'civicrm_saved_search',
+    'label' => ts('Saved Search'),
   ],
   'CRM_Contact_DAO_ContactType' => [
     'name' => 'ContactType',
     'class' => 'CRM_Contact_DAO_ContactType',
     'table' => 'civicrm_contact_type',
+    'label' => ts('Contact Type'),
   ],
   'CRM_Batch_DAO_Batch' => [
     'name' => 'Batch',
     'class' => 'CRM_Batch_DAO_Batch',
     'table' => 'civicrm_batch',
+    'label' => ts('Batch'),
   ],
   'CRM_Batch_DAO_EntityBatch' => [
     'name' => 'EntityBatch',
@@ -121,46 +138,55 @@ return [
     'name' => 'MailingComponent',
     'class' => 'CRM_Mailing_DAO_MailingComponent',
     'table' => 'civicrm_mailing_component',
+    'label' => ts('Mailing Component'),
   ],
   'CRM_Mailing_DAO_MailingAB' => [
     'name' => 'MailingAB',
     'class' => 'CRM_Mailing_DAO_MailingAB',
     'table' => 'civicrm_mailing_abtest',
+    'label' => ts('Mailing A/B Test'),
   ],
   'CRM_Mailing_DAO_BounceType' => [
     'name' => 'BounceType',
     'class' => 'CRM_Mailing_DAO_BounceType',
     'table' => 'civicrm_mailing_bounce_type',
+    'label' => ts('Bounce Type'),
   ],
   'CRM_Mailing_DAO_BouncePattern' => [
     'name' => 'BouncePattern',
     'class' => 'CRM_Mailing_DAO_BouncePattern',
     'table' => 'civicrm_mailing_bounce_pattern',
+    'label' => ts('Bounce Pattern'),
   ],
   'CRM_Contribute_DAO_Premium' => [
     'name' => 'Premium',
     'class' => 'CRM_Contribute_DAO_Premium',
     'table' => 'civicrm_premiums',
+    'label' => ts('Premium'),
   ],
   'CRM_Financial_DAO_Currency' => [
     'name' => 'Currency',
     'class' => 'CRM_Financial_DAO_Currency',
     'table' => 'civicrm_currency',
+    'label' => ts('Currency'),
   ],
   'CRM_Financial_DAO_FinancialAccount' => [
     'name' => 'FinancialAccount',
     'class' => 'CRM_Financial_DAO_FinancialAccount',
     'table' => 'civicrm_financial_account',
+    'label' => ts('Financial Account'),
   ],
   'CRM_Financial_DAO_PaymentProcessorType' => [
     'name' => 'PaymentProcessorType',
     'class' => 'CRM_Financial_DAO_PaymentProcessorType',
     'table' => 'civicrm_payment_processor_type',
+    'label' => ts('Payment Processor Type'),
   ],
   'CRM_Financial_DAO_FinancialType' => [
     'name' => 'FinancialType',
     'class' => 'CRM_Financial_DAO_FinancialType',
     'table' => 'civicrm_financial_type',
+    'label' => ts('Financial Type'),
   ],
   'CRM_Financial_DAO_EntityFinancialAccount' => [
     'name' => 'EntityFinancialAccount',
@@ -176,11 +202,13 @@ return [
     'name' => 'MembershipStatus',
     'class' => 'CRM_Member_DAO_MembershipStatus',
     'table' => 'civicrm_membership_status',
+    'label' => ts('Membership Status'),
   ],
   'CRM_Campaign_DAO_Campaign' => [
     'name' => 'Campaign',
     'class' => 'CRM_Campaign_DAO_Campaign',
     'table' => 'civicrm_campaign',
+    'label' => ts('Campaign'),
   ],
   'CRM_Campaign_DAO_CampaignGroup' => [
     'name' => 'CampaignGroup',
@@ -191,6 +219,7 @@ return [
     'name' => 'Survey',
     'class' => 'CRM_Campaign_DAO_Survey',
     'table' => 'civicrm_survey',
+    'label' => ts('Survey/Petition'),
   ],
   'CRM_Event_DAO_ParticipantStatusType' => [
     'name' => 'ParticipantStatusType',
@@ -211,21 +240,25 @@ return [
     'name' => 'Rule',
     'class' => 'CRM_Dedupe_DAO_Rule',
     'table' => 'civicrm_dedupe_rule',
+    'label' => ts('Dedupe Rule'),
   ],
   'CRM_Dedupe_DAO_Exception' => [
     'name' => 'Exception',
     'class' => 'CRM_Dedupe_DAO_Exception',
     'table' => 'civicrm_dedupe_exception',
+    'label' => ts('Dedupe Exception'),
   ],
   'CRM_Case_DAO_CaseType' => [
     'name' => 'CaseType',
     'class' => 'CRM_Case_DAO_CaseType',
     'table' => 'civicrm_case_type',
+    'label' => ts('Case Type'),
   ],
   'CRM_Grant_DAO_Grant' => [
     'name' => 'Grant',
     'class' => 'CRM_Grant_DAO_Grant',
     'table' => 'civicrm_grant',
+    'label' => ts('Grant'),
   ],
   'CRM_Friend_DAO_Friend' => [
     'name' => 'Friend',
@@ -246,6 +279,7 @@ return [
     'name' => 'PCP',
     'class' => 'CRM_PCP_DAO_PCP',
     'table' => 'civicrm_pcp',
+    'label' => ts('Personal Campaign Page'),
   ],
   'CRM_Cxn_DAO_Cxn' => [
     'name' => 'Cxn',
@@ -261,36 +295,43 @@ return [
     'name' => 'Country',
     'class' => 'CRM_Core_DAO_Country',
     'table' => 'civicrm_country',
+    'label' => ts('Country'),
   ],
   'CRM_Core_DAO_CustomGroup' => [
     'name' => 'CustomGroup',
     'class' => 'CRM_Core_DAO_CustomGroup',
     'table' => 'civicrm_custom_group',
+    'label' => ts('Set of Custom Fields'),
   ],
   'CRM_Core_DAO_CustomField' => [
     'name' => 'CustomField',
     'class' => 'CRM_Core_DAO_CustomField',
     'table' => 'civicrm_custom_field',
+    'label' => ts('Custom Field'),
   ],
   'CRM_Core_DAO_Domain' => [
     'name' => 'Domain',
     'class' => 'CRM_Core_DAO_Domain',
     'table' => 'civicrm_domain',
+    'label' => ts('Domain'),
   ],
   'CRM_Core_DAO_Email' => [
     'name' => 'Email',
     'class' => 'CRM_Core_DAO_Email',
     'table' => 'civicrm_email',
+    'label' => ts('Email Address'),
   ],
   'CRM_Core_DAO_File' => [
     'name' => 'File',
     'class' => 'CRM_Core_DAO_File',
     'table' => 'civicrm_file',
+    'label' => ts('File'),
   ],
   'CRM_Core_DAO_IM' => [
     'name' => 'IM',
     'class' => 'CRM_Core_DAO_IM',
     'table' => 'civicrm_im',
+    'label' => ts('Instant Messaging Account'),
   ],
   'CRM_Core_DAO_Job' => [
     'name' => 'Job',
@@ -331,26 +372,31 @@ return [
     'name' => 'Note',
     'class' => 'CRM_Core_DAO_Note',
     'table' => 'civicrm_note',
+    'label' => ts('Note'),
   ],
   'CRM_Core_DAO_OptionValue' => [
     'name' => 'OptionValue',
     'class' => 'CRM_Core_DAO_OptionValue',
     'table' => 'civicrm_option_value',
+    'label' => ts('Option Value'),
   ],
   'CRM_Core_DAO_Phone' => [
     'name' => 'Phone',
     'class' => 'CRM_Core_DAO_Phone',
     'table' => 'civicrm_phone',
+    'label' => ts('Phone Number'),
   ],
   'CRM_Core_DAO_StateProvince' => [
     'name' => 'StateProvince',
     'class' => 'CRM_Core_DAO_StateProvince',
     'table' => 'civicrm_state_province',
+    'label' => ts('State/Province'),
   ],
   'CRM_Core_DAO_Tag' => [
     'name' => 'Tag',
     'class' => 'CRM_Core_DAO_Tag',
     'table' => 'civicrm_tag',
+    'label' => ts('Tag'),
   ],
   'CRM_Core_DAO_UFMatch' => [
     'name' => 'UFMatch',
@@ -361,16 +407,19 @@ return [
     'name' => 'Timezone',
     'class' => 'CRM_Core_DAO_Timezone',
     'table' => 'civicrm_timezone',
+    'label' => ts('Time Zone'),
   ],
   'CRM_Core_DAO_OpenID' => [
     'name' => 'OpenID',
     'class' => 'CRM_Core_DAO_OpenID',
     'table' => 'civicrm_openid',
+    'label' => ts('OpenID'),
   ],
   'CRM_Core_DAO_Website' => [
     'name' => 'Website',
     'class' => 'CRM_Core_DAO_Website',
     'table' => 'civicrm_website',
+    'label' => ts('Website'),
   ],
   'CRM_Core_DAO_Setting' => [
     'name' => 'Setting',
@@ -386,6 +435,7 @@ return [
     'name' => 'WordReplacement',
     'class' => 'CRM_Core_DAO_WordReplacement',
     'table' => 'civicrm_word_replacement',
+    'label' => ts('Word Replacement'),
   ],
   'CRM_Core_DAO_StatusPreference' => [
     'name' => 'StatusPreference',
@@ -401,6 +451,7 @@ return [
     'name' => 'Group',
     'class' => 'CRM_Contact_DAO_Group',
     'table' => 'civicrm_group',
+    'label' => ts('Group'),
   ],
   'CRM_Contact_DAO_SubscriptionHistory' => [
     'name' => 'SubscriptionHistory',
@@ -436,11 +487,13 @@ return [
     'name' => 'ContributionPage',
     'class' => 'CRM_Contribute_DAO_ContributionPage',
     'table' => 'civicrm_contribution_page',
+    'label' => ts('Contribution Page'),
   ],
   'CRM_Contribute_DAO_Product' => [
     'name' => 'Product',
     'class' => 'CRM_Contribute_DAO_Product',
     'table' => 'civicrm_product',
+    'label' => ts('Product'),
   ],
   'CRM_Contribute_DAO_PremiumsProduct' => [
     'name' => 'PremiumsProduct',
@@ -451,11 +504,13 @@ return [
     'name' => 'Widget',
     'class' => 'CRM_Contribute_DAO_Widget',
     'table' => 'civicrm_contribution_widget',
+    'label' => ts('Contribution Page Widget'),
   ],
   'CRM_Financial_DAO_PaymentProcessor' => [
     'name' => 'PaymentProcessor',
     'class' => 'CRM_Financial_DAO_PaymentProcessor',
     'table' => 'civicrm_payment_processor',
+    'label' => ts('Payment Processor'),
   ],
   'CRM_Financial_DAO_PaymentToken' => [
     'name' => 'PaymentToken',
@@ -466,11 +521,13 @@ return [
     'name' => 'Provider',
     'class' => 'CRM_SMS_DAO_Provider',
     'table' => 'civicrm_sms_provider',
+    'label' => ts('SMS Provider'),
   ],
   'CRM_Member_DAO_MembershipType' => [
     'name' => 'MembershipType',
     'class' => 'CRM_Member_DAO_MembershipType',
     'table' => 'civicrm_membership_type',
+    'label' => ts('Membership Type'),
   ],
   'CRM_Member_DAO_MembershipBlock' => [
     'name' => 'MembershipBlock',
@@ -481,6 +538,7 @@ return [
     'name' => 'Case',
     'class' => 'CRM_Case_DAO_Case',
     'table' => 'civicrm_case',
+    'label' => ts('Case'),
   ],
   'CRM_Case_DAO_CaseContact' => [
     'name' => 'CaseContact',
@@ -491,16 +549,19 @@ return [
     'name' => 'Pledge',
     'class' => 'CRM_Pledge_DAO_Pledge',
     'table' => 'civicrm_pledge',
+    'label' => ts('Pledge'),
   ],
   'CRM_Report_DAO_ReportInstance' => [
     'name' => 'ReportInstance',
     'class' => 'CRM_Report_DAO_ReportInstance',
     'table' => 'civicrm_report_instance',
+    'label' => ts('Report'),
   ],
   'CRM_Price_DAO_PriceSet' => [
     'name' => 'PriceSet',
     'class' => 'CRM_Price_DAO_PriceSet',
     'table' => 'civicrm_price_set',
+    'label' => ts('Price Set'),
   ],
   'CRM_Price_DAO_PriceSetEntity' => [
     'name' => 'PriceSetEntity',
@@ -511,6 +572,7 @@ return [
     'name' => 'County',
     'class' => 'CRM_Core_DAO_County',
     'table' => 'civicrm_county',
+    'label' => ts('County'),
   ],
   'CRM_Core_DAO_Dashboard' => [
     'name' => 'Dashboard',
@@ -536,6 +598,7 @@ return [
     'name' => 'UFGroup',
     'class' => 'CRM_Core_DAO_UFGroup',
     'table' => 'civicrm_uf_group',
+    'label' => ts('Profile'),
   ],
   'CRM_Core_DAO_UFField' => [
     'name' => 'UFField',
@@ -566,11 +629,13 @@ return [
     'name' => 'Relationship',
     'class' => 'CRM_Contact_DAO_Relationship',
     'table' => 'civicrm_relationship',
+    'label' => ts('Relationship'),
   ],
   'CRM_Mailing_DAO_Mailing' => [
     'name' => 'Mailing',
     'class' => 'CRM_Mailing_DAO_Mailing',
     'table' => 'civicrm_mailing',
+    'label' => ts('Mailing'),
   ],
   'CRM_Mailing_DAO_MailingGroup' => [
     'name' => 'MailingGroup',
@@ -641,16 +706,19 @@ return [
     'name' => 'ContributionRecur',
     'class' => 'CRM_Contribute_DAO_ContributionRecur',
     'table' => 'civicrm_contribution_recur',
+    'label' => ts('Recurring Contribution Series'),
   ],
   'CRM_Financial_DAO_FinancialTrxn' => [
     'name' => 'FinancialTrxn',
     'class' => 'CRM_Financial_DAO_FinancialTrxn',
     'table' => 'civicrm_financial_trxn',
+    'label' => ts('Financial Transaction'),
   ],
   'CRM_Member_DAO_Membership' => [
     'name' => 'Membership',
     'class' => 'CRM_Member_DAO_Membership',
     'table' => 'civicrm_membership',
+    'label' => ts('Membership'),
   ],
   'CRM_Member_DAO_MembershipLog' => [
     'name' => 'MembershipLog',
@@ -661,6 +729,7 @@ return [
     'name' => 'Activity',
     'class' => 'CRM_Activity_DAO_Activity',
     'table' => 'civicrm_activity',
+    'label' => ts('Activity'),
   ],
   'CRM_Activity_DAO_ActivityContact' => [
     'name' => 'ActivityContact',
@@ -676,11 +745,13 @@ return [
     'name' => 'PriceField',
     'class' => 'CRM_Price_DAO_PriceField',
     'table' => 'civicrm_price_field',
+    'label' => ts('Price Field'),
   ],
   'CRM_Price_DAO_PriceFieldValue' => [
     'name' => 'PriceFieldValue',
     'class' => 'CRM_Price_DAO_PriceFieldValue',
     'table' => 'civicrm_price_field_value',
+    'label' => ts('Price Option'),
   ],
   'CRM_PCP_DAO_PCPBlock' => [
     'name' => 'PCPBlock',
@@ -691,21 +762,25 @@ return [
     'name' => 'Address',
     'class' => 'CRM_Core_DAO_Address',
     'table' => 'civicrm_address',
+    'label' => ts('Address'),
   ],
   'CRM_Core_DAO_LocBlock' => [
     'name' => 'LocBlock',
     'class' => 'CRM_Core_DAO_LocBlock',
     'table' => 'civicrm_loc_block',
+    'label' => ts('Location Block'),
   ],
   'CRM_Contact_DAO_GroupContact' => [
     'name' => 'GroupContact',
     'class' => 'CRM_Contact_DAO_GroupContact',
     'table' => 'civicrm_group_contact',
+    'label' => ts('Group Subscription'),
   ],
   'CRM_Contribute_DAO_Contribution' => [
     'name' => 'Contribution',
     'class' => 'CRM_Contribute_DAO_Contribution',
     'table' => 'civicrm_contribution',
+    'label' => ts('Contribution'),
   ],
   'CRM_Contribute_DAO_ContributionProduct' => [
     'name' => 'ContributionProduct',
@@ -716,6 +791,7 @@ return [
     'name' => 'ContributionSoft',
     'class' => 'CRM_Contribute_DAO_ContributionSoft',
     'table' => 'civicrm_contribution_soft',
+    'label' => ts('Soft Credit'),
   ],
   'CRM_Financial_DAO_EntityFinancialTrxn' => [
     'name' => 'EntityFinancialTrxn',
@@ -731,11 +807,13 @@ return [
     'name' => 'Event',
     'class' => 'CRM_Event_DAO_Event',
     'table' => 'civicrm_event',
+    'label' => ts('Event'),
   ],
   'CRM_Event_DAO_Participant' => [
     'name' => 'Participant',
     'class' => 'CRM_Event_DAO_Participant',
     'table' => 'civicrm_participant',
+    'label' => ts('Participant'),
   ],
   'CRM_Event_DAO_ParticipantPayment' => [
     'name' => 'ParticipantPayment',
@@ -751,10 +829,12 @@ return [
     'name' => 'PledgePayment',
     'class' => 'CRM_Pledge_DAO_PledgePayment',
     'table' => 'civicrm_pledge_payment',
+    'label' => ts('Pledge Payment'),
   ],
   'CRM_Price_DAO_LineItem' => [
     'name' => 'LineItem',
     'class' => 'CRM_Price_DAO_LineItem',
     'table' => 'civicrm_line_item',
+    'label' => ts('Line Item'),
   ],
 ];
