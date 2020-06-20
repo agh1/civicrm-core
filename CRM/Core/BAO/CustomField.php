@@ -660,6 +660,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     $element = NULL;
     $customFieldAttributes = [];
 
+    if (!isset($label)) {
+      $label = $field->label;
+    }
+
     // Custom field HTML should indicate group+field name
     $groupName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $field->custom_group_id);
     $dataCrmCustomVal = $groupName . ':' . $field->name;
@@ -671,7 +675,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
       $widget = 'Text';
     }
 
-    $placeholder = $search ? ts('- any -') : ($useRequired ? ts('- select -') : ts('- none -'));
+    $placeholder = $search ? ts('- any %1 -', [1 => $label]) : ts('- select %1 -', [1 => $label]);
 
     // FIXME: Why are select state/country separate widget types?
     $isSelect = (in_array($widget, [
@@ -713,10 +717,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     }
 
     $rangeDataTypes = ['Int', 'Float', 'Money'];
-
-    if (!isset($label)) {
-      $label = $field->label;
-    }
 
     // at some point in time we might want to split the below into small functions
 
