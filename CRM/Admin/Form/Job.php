@@ -56,7 +56,7 @@ class CRM_Admin_Form_Job extends CRM_Admin_Form {
     }
 
     if ($this->_action & CRM_Core_Action::VIEW) {
-      $this->assign('jobName', self::getJobName($this->_id)); 
+      $this->assign('jobName', self::getJobName($this->_id));
       $this->addButtons([
         [
           'type' => 'submit',
@@ -70,7 +70,6 @@ class CRM_Admin_Form_Job extends CRM_Admin_Form {
       ]);
       return;
     }
-        
 
     $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Job');
 
@@ -101,7 +100,7 @@ class CRM_Admin_Form_Job extends CRM_Admin_Form {
     $this->add('datepicker', 'scheduled_run_date', ts('Scheduled Run Date'), NULL, FALSE, ['minDate' => time()]);
 
     $this->add('textarea', 'parameters', ts('Command parameters'),
-      "cols=50 rows=6"
+      ['cols' => 50, 'rows' => 6]
     );
 
     // is this job active ?
