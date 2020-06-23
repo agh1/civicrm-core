@@ -80,7 +80,7 @@ class CRM_Core_DAO_AllCoreTables {
    * @param string $links_callback
    * @param string $label
    */
-  public static function registerEntityType($daoName, $className, $tableName, $fields_callback = NULL, $links_callback = NULL, $label) {
+  public static function registerEntityType($daoName, $className, $tableName, $fields_callback = NULL, $links_callback = NULL, $label = NULL) {
     self::$daoToClass[$daoName] = $className;
     self::$tables[$tableName] = $className;
     self::$entityTypes[$className] = [
@@ -89,7 +89,7 @@ class CRM_Core_DAO_AllCoreTables {
       'table' => $tableName,
       'fields_callback' => $fields_callback,
       'links_callback' => $links_callback,
-      'label' => $label,
+      'label' => $label ?? $daoName,
     ];
   }
 

@@ -362,12 +362,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
    */
   public function &add(
     $type, $name, $label = '',
-    $attributes = [], $required = FALSE, $extra = NULL
+    $attributes = NULL, $required = FALSE, $extra = NULL
   ) {
-    if (!is_array($attributes)) {
+    if ($attributes && !is_array($attributes)) {
       // The $attributes param used to allow for strings and would default to an
       // empty string.  However, now that the variable is heavily manipulated,
-      // we should expect it to always be an array.
+      // we should expect it to always be an array.  However, an empty array can
+      // cause problems.
       Civi::log()->warning('Attributes passed to CRM_Core_Form::add() are not an array.', ['civi.tag' => 'deprecated']);
     }
     // Fudge some extra types that quickform doesn't support
@@ -1474,8 +1475,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
       $info = civicrm_api3($props['entity'], 'getoptions', $props);
       $options = $info['values'];
     }
-    if (!array_key_exists('placeholder', $props)) {
-      $props['placeholder'] = self::selectOrAnyPlaceholder($props, $required);
+    if (!array_key_exists('placeholder', $props) && $placeholder = self::selectOrAnyPlaceholder($props, $required)) {
+      $props['placeholder'] = $placeholder;
     }
     // Handle custom field
     if (strpos($name, 'custom_') === 0 && is_numeric($name[7])) {
@@ -1521,6 +1522,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
    *   The placeholder text.
    */
   private static function selectOrAnyPlaceholder($props, $required) {
+    if (empty($props['entity'])) {
+      return NULL;
+    }
     $tsPlaceholder = [1 => CRM_Core_DAO_AllCoreTables::entityLabel($props['entity'])];
     if (($props['context'] ?? '') == 'search' && !$required) {
       return ts('- any %1 -', $tsPlaceholder);
@@ -1684,8 +1688,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
       case 'Select':
       case 'Select2':
         $props['class'] = CRM_Utils_Array::value('class', $props, 'big') . ' crm-select2';
-        if (!array_key_exists('placeholder', $props)) {
-          $props['placeholder'] = self::selectOrAnyPlaceholder($props, $required);
+        if (!array_key_exists('placeholder', $props) && $placeholder = self::selectOrAnyPlaceholder($props, $required)) {
+          $props['placeholder'] = $placeholder;
         }
         // TODO: Add and/or option for fields that store multiple values
         return $this->add(strtolower($widget), $name, $label, $options, $required, $props);
