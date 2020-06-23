@@ -664,11 +664,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
       $label = $field->label;
     }
 
+    // DAO stores attributes as a string, but it's hard to manipulate and
+    // CRM_Core_Form::add() wants them as an array.
+    $fieldAttributes = self::attributesFromString($field->attributes);
+
     // Custom field HTML should indicate group+field name
     $groupName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $field->custom_group_id);
-    $dataCrmCustomVal = $groupName . ':' . $field->name;
-    $dataCrmCustomAttr = 'data-crm-custom="' . $dataCrmCustomVal . '"';
-    $field->attributes .= $dataCrmCustomAttr;
+    $fieldAttributes['data-crm-custom'] = $groupName . ':' . $field->name;
 
     // Fixed for Issue CRM-2183
     if ($widget == 'TextArea' && $search) {
@@ -694,14 +696,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $widget = 'Select';
       }
 
-      $customFieldAttributes['data-crm-custom'] = $dataCrmCustomVal;
-      $selectAttributes = ['class' => 'crm-select2'];
+      $fieldAttributes['class'] .= ltrim($fieldAttributes['class'] ?? '' . ' crm-select2');
 
       // Search field is always multi-select
       if ($search || (self::isSerialized($field) && $widget === 'Select')) {
-        $selectAttributes['class'] .= ' huge';
-        $selectAttributes['multiple'] = 'multiple';
-        $selectAttributes['placeholder'] = $placeholder;
+        $fieldAttributes['class'] .= ' huge';
+        $fieldAttributes['multiple'] = 'multiple';
+        $fieldAttributes['placeholder'] = $placeholder;
       }
 
       // Add data for popup link. Normally this is handled by CRM_Core_Form->addSelect
@@ -712,7 +713,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
           'data-api-field' => 'custom_' . $field->id,
           'data-option-edit-path' => 'civicrm/admin/options/' . CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionGroup', $field->option_group_id),
         ];
-        $selectAttributes += $customFieldAttributes;
+        $fieldAttributes = array_merge($fieldAttributes, $customFieldAttributes);
       }
     }
 
@@ -724,50 +725,39 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
       case 'Text':
       case 'Link':
         if ($field->is_search_range && $search && in_array($field->data_type, $rangeDataTypes)) {
-          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $field->attributes);
-          $qf->add('text', $elementName . '_to', ts('To'), $field->attributes);
+          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $fieldAttributes);
+          $qf->add('text', $elementName . '_to', ts('To'), $fieldAttributes);
         }
         else {
           if ($field->text_length) {
-            $field->attributes .= ' maxlength=' . $field->text_length;
+            $fieldAttributes['maxlength'] = $field->text_length;
             if ($field->text_length < 20) {
-              $field->attributes .= ' size=' . $field->text_length;
+              $fieldAttributes['size'] = $field->text_length;
             }
           }
           $element = $qf->add('text', $elementName, $label,
-            $field->attributes,
+            $fieldAttributes,
             $useRequired && !$search
           );
         }
         break;
 
       case 'TextArea':
-        $attributes = $dataCrmCustomAttr;
-        if ($field->note_rows) {
-          $attributes .= 'rows=' . $field->note_rows;
-        }
-        else {
-          $attributes .= 'rows=4';
-        }
-        if ($field->note_columns) {
-          $attributes .= ' cols=' . $field->note_columns;
-        }
-        else {
-          $attributes .= ' cols=60';
-        }
+        $fieldAttributes['rows'] = $field->note_rows ?? 4;
+        $fieldAttributes['cols'] = $field->note_columns ?? 60;
+
         if ($field->text_length) {
-          $attributes .= ' maxlength=' . $field->text_length;
+          $fieldAttributes['maxlength'] = $field->text_length;
         }
         $element = $qf->add('textarea',
           $elementName,
           $label,
-          $attributes,
+          $fieldAttributes,
           $useRequired && !$search
         );
         break;
 
       case 'Select Date':
-        $attr = ['data-crm-custom' => $dataCrmCustomVal];
         //CRM-18379: Fix for date range of 'Select Date' custom field when include in profile.
         $minYear = isset($field->start_date_years) ? (date('Y') - $field->start_date_years) : NULL;
         $maxYear = isset($field->end_date_years) ? (date('Y') + $field->end_date_years) : NULL;
@@ -780,40 +770,39 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
           'time' => $field->time_format ? $field->time_format * 12 : FALSE,
         ];
         if ($field->is_search_range && $search) {
-          $qf->add('datepicker', $elementName . '_from', $label, $attr + array('placeholder' => ts('From')), FALSE, $params);
-          $qf->add('datepicker', $elementName . '_to', NULL, $attr + array('placeholder' => ts('To')), FALSE, $params);
+          $qf->add('datepicker', $elementName . '_from', $label, $fieldAttributes + array('placeholder' => ts('From')), FALSE, $params);
+          $qf->add('datepicker', $elementName . '_to', NULL, $fieldAttributes + array('placeholder' => ts('To')), FALSE, $params);
         }
         else {
-          $element = $qf->add('datepicker', $elementName, $label, $attr, $useRequired && !$search, $params);
+          $element = $qf->add('datepicker', $elementName, $label, $fieldAttributes, $useRequired && !$search, $params);
         }
         break;
 
       case 'Radio':
         if ($field->is_search_range && $search && in_array($field->data_type, $rangeDataTypes)) {
-          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $field->attributes);
-          $qf->add('text', $elementName . '_to', ts('To'), $field->attributes);
+          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $fieldAttributes);
+          $qf->add('text', $elementName . '_to', ts('To'), $fieldAttributes);
         }
         else {
-          parse_str($field->attributes, $radioAttributes);
-          $radioAttributes = array_merge($radioAttributes, $customFieldAttributes);
+          $fieldAttributes = array_merge($fieldAttributes, $customFieldAttributes);
           if ($search || empty($useRequired)) {
-            $radioAttributes['allowClear'] = TRUE;
+            $fieldAttributes['allowClear'] = TRUE;
           }
-          $qf->addRadio($elementName, $label, $options, $radioAttributes, NULL, $useRequired);
+          $qf->addRadio($elementName, $label, $options, $fieldAttributes, NULL, $useRequired);
         }
         break;
 
       // For all select elements
       case 'Select':
         if ($field->is_search_range && $search && in_array($field->data_type, $rangeDataTypes)) {
-          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $field->attributes);
-          $qf->add('text', $elementName . '_to', ts('To'), $field->attributes);
+          $qf->add('text', $elementName . '_from', $label . ' ' . ts('From'), $fieldAttributes);
+          $qf->add('text', $elementName . '_to', ts('To'), $fieldAttributes);
         }
         else {
-          if (empty($selectAttributes['multiple'])) {
+          if (empty($fieldAttributes['multiple'])) {
             $options = ['' => $placeholder] + $options;
           }
-          $element = $qf->add('select', $elementName, $label, $options, $useRequired && !$search, $selectAttributes);
+          $element = $qf->add('select', $elementName, $label, $options, $useRequired && !$search, $fieldAttributes);
 
           // Add and/or option for fields that store multiple values
           if ($search && self::isSerialized($field)) {
@@ -831,6 +820,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
       case 'CheckBox':
         $check = [];
         foreach ($options as $v => $l) {
+          // TODO: I'm not sure if this is supposed to exclude whatever might be
+          // in $field->attributes (available in array format as
+          // $fieldAttributes).  Leaving as-is for now.
           $check[] = &$qf->addElement('advcheckbox', $v, NULL, $l, $customFieldAttributes);
         }
 
@@ -854,44 +846,31 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
           strtolower($field->html_type),
           $elementName,
           $label,
-          $field->attributes,
+          $fieldAttributes,
           $useRequired && !$search
         );
         $qf->addUploadElement($elementName);
         break;
 
       case 'RichTextEditor':
-        $attributes = [
-          'rows' => $field->note_rows,
-          'cols' => $field->note_columns,
-          'data-crm-custom' => $dataCrmCustomVal,
-        ];
+        $fieldAttributes['rows'] = $field->note_rows;
+        $fieldAttributes['cols'] = $field->note_columns;
         if ($field->text_length) {
-          $attributes['maxlength'] = $field->text_length;
+          $fieldAttributes['maxlength'] = $field->text_length;
         }
-        $element = $qf->add('wysiwyg', $elementName, $label, $attributes, $useRequired && !$search);
+        $element = $qf->add('wysiwyg', $elementName, $label, $fieldAttributes, $useRequired && !$search);
         break;
 
       case 'Autocomplete-Select':
         static $customUrls = [];
-        // Fixme: why is this a string in the first place??
-        $attributes = [];
-        if ($field->attributes) {
-          foreach (explode(' ', $field->attributes) as $at) {
-            if (strpos($at, '=')) {
-              list($k, $v) = explode('=', $at);
-              $attributes[$k] = trim($v, ' "');
-            }
-          }
-        }
         if ($field->data_type == 'ContactReference') {
           // break if contact does not have permission to access ContactReference
           if (!CRM_Core_Permission::check('access contact reference fields')) {
             break;
           }
-          $attributes['class'] = (isset($attributes['class']) ? $attributes['class'] . ' ' : '') . 'crm-form-contact-reference huge';
-          $attributes['data-api-entity'] = 'Contact';
-          $element = $qf->add('text', $elementName, $label, $attributes, $useRequired && !$search);
+          $fieldAttributes['class'] = ltrim($fieldAttributes['class'] ?? '' . ' crm-form-contact-reference huge');
+          $fieldAttributes['data-api-entity'] = 'Contact';
+          $element = $qf->add('text', $elementName, $label, $fieldAttributes, $useRequired && !$search);
 
           $urlParams = "context=customfield&id={$field->id}";
           $idOfelement = $elementName;
@@ -910,7 +889,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         }
         else {
           // FIXME: This won't work with customFieldOptions hook
-          $attributes += [
+          $fieldAttributes += [
             'entity' => 'OptionValue',
             'placeholder' => $placeholder,
             'multiple' => $search,
@@ -918,7 +897,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
               'params' => ['option_group_id' => $field->option_group_id, 'is_active' => 1],
             ],
           ];
-          $element = $qf->addEntityRef($elementName, $label, $attributes, $useRequired && !$search);
+          $element = $qf->addEntityRef($elementName, $label, $fieldAttributes, $useRequired && !$search);
         }
 
         $qf->assign('customUrls', $customUrls);
@@ -966,6 +945,27 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
       $qf->freeze($elementName);
     }
     return $element;
+  }
+
+  /**
+   * Take a string of HTML element attributes and turn it into an associative
+   * array.
+   *
+   * @param string $attrString
+   *   The attributes as a string, e.g. `rows=3 cols=40`.
+   *
+   * @return array
+   *   The attributes as an array, e.g. `['rows' => 3, 'cols' => 40]`.
+   */
+  public static function attributesFromString($attrString) {
+    $attributes = [];
+    foreach (explode(' ', $attrString) as $at) {
+      if (strpos($at, '=')) {
+        list($k, $v) = explode('=', $at);
+        $attributes[$k] = trim($v, ' "');
+      }
+    }
+    return $attributes;
   }
 
   /**
